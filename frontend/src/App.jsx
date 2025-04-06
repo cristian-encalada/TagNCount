@@ -76,7 +76,8 @@ function App() {
       const formData = new FormData();
       formData.append('file', imageData.file);
       
-      const response = await fetch('http://localhost:8000/analyze', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiUrl}/analyze`, {
         method: 'POST',
         body: formData,
       });

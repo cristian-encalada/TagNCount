@@ -38,8 +38,9 @@ function App() {
       formData.append('file', file);
 
       try {
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
         const response = await axios.post<AnalysisResponse>(
-          'http://localhost:8000/analyze',
+          `${apiUrl}/analyze`,
           formData,
           {
             headers: {
