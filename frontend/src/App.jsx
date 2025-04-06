@@ -217,6 +217,44 @@ function App() {
 
           {images.length > 0 && (
             <div className="grid grid-cols-1 gap-8">
+              {images.length > 1 && (
+                <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+                  <button 
+                    onClick={() => {
+                      // Download all tagged images
+                      const processedImages = images.filter(img => img.annotatedSrc && !img.loading && !img.error);
+                      
+                      if (processedImages.length === 0) {
+                        alert('No processed images available for download.');
+                        return;
+                      }
+                      
+                      // Download images one by one with a slight delay to prevent browser issues
+                      processedImages.forEach((img, index) => {
+                        setTimeout(() => {
+                          const a = document.createElement('a');
+                          a.href = img.annotatedSrc;
+                          a.download = `tagged-${img.name}`;
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                        }, index * 500); // 500ms delay between downloads
+                      });
+                    }}
+                    className={`w-full flex items-center justify-center px-4 py-3 rounded-md 
+                      ${darkMode 
+                        ? 'bg-green-600 hover:bg-green-700' 
+                        : 'bg-green-500 hover:bg-green-600'} 
+                      text-white transition-colors`}
+                    disabled={!images.some(img => img.annotatedSrc && !img.loading && !img.error)}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Download All Processed Images ({images.filter(img => img.annotatedSrc && !img.loading && !img.error).length})
+                  </button>
+                </div>
+              )}
               {images.map(image => (
                 <div key={image.id} className={`rounded-lg shadow-lg p-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
                   <div className="flex justify-between items-center mb-4">
@@ -254,11 +292,34 @@ function App() {
                         {image.annotatedSrc && (
                           <div>
                             <h3 className={`text-lg font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Detected Objects</h3>
-                            <img
-                              src={image.annotatedSrc}
-                              alt="Annotated"
-                              className="max-w-full h-auto rounded-lg"
-                            />
+                            <div className="relative group">
+                              <img
+                                src={image.annotatedSrc}
+                                alt="Annotated"
+                                className="max-w-full h-auto rounded-lg"
+                              />
+                              <button 
+                                onClick={() => {
+                                  // Create an anchor element
+                                  const a = document.createElement('a');
+                                  a.href = image.annotatedSrc;
+                                  a.download = `tagged-${image.name}`;
+                                  document.body.appendChild(a);
+                                  a.click();
+                                  document.body.removeChild(a);
+                                }}
+                                className={`mt-2 flex items-center justify-center px-4 py-2 rounded-md 
+                                  ${darkMode 
+                                    ? 'bg-blue-600 hover:bg-blue-700' 
+                                    : 'bg-blue-500 hover:bg-blue-600'} 
+                                  text-white transition-colors`}
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Download Processed Image
+                              </button>
+                            </div>
                           </div>
                         )}
                       </div>

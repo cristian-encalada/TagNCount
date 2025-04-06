@@ -2,6 +2,12 @@
 
 TagNCount is a web application that uses computer vision to detect, label, and count objects in images. The system provides an interface where users can upload images and receive detailed analysis of the objects present in them.
 
+
+![App Home Page](./frontend/public/Home_page.png)
+
+
+![Analysis Results](./frontend/public/Analysis_Results_demo.png)
+
 ## How It Works
 
 1. **Frontend Interface**: Users can upload images through a drag-and-drop interface or by browsing their files.
@@ -198,4 +204,4 @@ The application uses YOLOv8 with the [COCO dataset](https://docs.ultralytics.com
 Once the backend is running, visit `http://localhost:8000/docs` for the API documentation.
 
 ## License
-MIT 
+[![MIT License](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
