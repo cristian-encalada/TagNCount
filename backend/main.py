@@ -29,7 +29,7 @@ app = FastAPI(title="TagNCount API")
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://tagncount-1.onrender.com/docs"],
+    allow_origins=["http://localhost:3000", "https://tagncount-1.onrender.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
